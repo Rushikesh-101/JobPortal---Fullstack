@@ -1,0 +1,57 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+// enum --> restricted allowed string values
+enum Role {
+    RECRUITER
+    APPLICANT
+}
+
+model User {
+    id           Int           @id @default(autoincrement())
+    name         String
+    email        String        @unique()
+    password     String
+
+    location     String?
+    skills       String?
+    experience   Int?
+    role         Role
+
+    jobs         Job[]
+    applications Application[]
+}
+
+model Job {
+    id           Int      @id @default(autoincrement())
+    title        String
+    company      String
+    postDate     DateTime @default(now())
+    salary       Int
+    experience   Int
+    skills       String
+
+    recruiterId  Int
+    
+    // prisma relationship for recruiterId as foreign key to users ID
+    recruiter    User          @relation(fields: [recruiterId], references: [id])
+    applications Application[]
+}
+
+model Application {
+    id             Int    @id @default(autoincrement())
+    name           String
+    skills         String
+    expectedSalary Int
+
+    jobId          Int
+    applicantId    Int
+
+    job            Job  @relation(fields: [jobId], references: [id])
+    applicant      User @relation(fields: [applicantId], references: [id])
+}
