@@ -50,11 +50,12 @@ export async function getRcrtrJobsController(req, res) {
 
     try {
 
-        const rcrtrId = Number(req.params.id);
+        const rcrtrId = req.user.id;
 
         const jobs = await getRcrtrJobsService(rcrtrId);
 
         res.status(200).json(jobs);
+        console.log("Jobs controller succesful")
 
     } catch (error) {
         console.error(error)

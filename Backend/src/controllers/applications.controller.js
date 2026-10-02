@@ -12,7 +12,7 @@ export async function getAplcntApplicationController(req, res) {
 
     try {
 
-        const id = Number(req.params.id);
+        const id = req.user.id
 
         const applications =
             await getAplcntApplicationsService(id);
@@ -55,7 +55,7 @@ export async function getRcrtrApplicationController(req, res) {
 
     try {
 
-        const recruiterId = Number(req.params.id);
+        const recruiterId = req.user.id;
 
         const applications =
             await getRcrtrApplicationService(recruiterId);
