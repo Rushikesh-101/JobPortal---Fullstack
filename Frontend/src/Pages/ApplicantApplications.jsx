@@ -8,20 +8,31 @@ function ApplicantApplications() {
 
     useEffect(() => {
         async function getApplications() {
-            const response = await axios.get(
+
+            try{const response = await axios.get(
                 `http://localhost:3000/applications/applicant/${id}`,
                 { withCredentials: true }
             );
             setApplications(response.data);
+        }catch (error) {
+
+            if (error.response.status === 401) {
+
+                console.log(error.response.data.message);
+
+                navigate("/login");
+            }
+        }
+        
         }
         getApplications();
     }, [id]);
 
     return (
-        <>
+        <div className="page-shell listing-page"><div className="page-header"><div><h1>My Applications</h1><p>Track the jobs you have applied for.</p></div><span className="count-badge">{myApplications.length} applications</span></div><div className="card-grid">
             {myApplications.map((application) => (
-                <Link to={`/applicant/application/${application.id}`} key={application.id}>
-                    <div>
+                <Link className="item-link" to={`/applicant/application/${application.id}`} key={application.id}>
+                    <div className="application-card">
                         <p>Application ID: {application.id}</p>
                         <p>Job ID: {application.jobId}</p>
                         <p>Name: {application.name}</p>
@@ -31,7 +42,7 @@ function ApplicantApplications() {
                     </div>
                 </Link>
             ))}
-        </>
+        </div></div>
     );
 }
 

@@ -14,8 +14,9 @@ function HomePage(){
         // </>
 
     return(
-        <div>
-
+        <div className="home-page page-shell">
+            <div className="hero-card">
+            <div className="brand-mark">JP</div>
             <h1>Job Portal</h1>
 
             <h2>Welcome</h2>
@@ -23,6 +24,7 @@ function HomePage(){
             <p>
                 Find jobs and manage your applications.
             </p>
+            <div className="home-actions">
 
 
             <Link to="/login">
@@ -32,8 +34,7 @@ function HomePage(){
             </Link>
 
 
-            <br />
-            <br />
+
 
 
             <Link to="/register">
@@ -41,7 +42,8 @@ function HomePage(){
                     Register
                 </button>
             </Link>
-
+            </div>
+            </div>
         </div>
     
     )

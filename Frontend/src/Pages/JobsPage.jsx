@@ -9,21 +9,32 @@ function JobsPage() {
     // Making API request using axios inside useEffect
     useEffect(() => {
         async function getJobs() {
-            const response = await axios.get(
+
+            try{const response = await axios.get(
                 "http://localhost:3000/jobs",
                 { withCredentials: true }
             );
             setJobs(response.data);
+
+        }catch (error) {
+
+            if (error.response.status === 401) {
+
+                console.log(error.response.data.message);
+
+                navigate("/login");
+            }
+        }
         }
         getJobs();
     }, []);
 
     return (
-        <>
+        <div className="page-shell listing-page"><div className="page-header"><div><h1>Available Jobs</h1><p>Explore current job opportunities.</p></div><span className="count-badge">{jobs.length} jobs</span></div><div className="card-grid">
             {console.log(jobs)}
             {jobs.map((job) => (
-                <Link to={`/details/${job.id}`} key={job.id}>
-                    <div>
+                <Link className="item-link" to={`/details/${job.id}`} key={job.id}>
+                    <div className="job-card">
                         <h2>{job.title}</h2>
                         <p>Job id: {job.id}</p>
                         <p>Company: {job.company}</p>
@@ -32,7 +43,7 @@ function JobsPage() {
                     </div>
                 </Link>
             ))}
-        </>
+        </div></div>
     );
 }
 

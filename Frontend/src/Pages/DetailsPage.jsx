@@ -8,20 +8,31 @@ function DetailsPage() {
 
     useEffect(() => {
         async function getDetails() {
-            const response = await axios.get(
+
+            try{const response = await axios.get(
                 `http://localhost:3000/jobs/details/${id}`,
                 { withCredentials: true }
             );
             console.log("Response:", response);
             console.log("Response data:", response.data);
             setDetails(response.data);
+
+        }catch (error) {
+
+            if (error.response.status === 401) {
+
+                console.log(error.response.data.message);
+
+                navigate("/login");
+            }
         }
-        console.log("Are the details", Details);
+        }
+
         getDetails();
     }, [id]);
 
     return (
-        <>
+        <div className="page-shell details-page"><div className="details-card"><div className="details-top"><span className="eyebrow">Job #{Details.id}</span><span className="status-badge">Open Position</span></div>
             <p>Job id : {Details.id}</p>
             <h1>Role : {Details.title}</h1>
             <h2>Company : {Details.company}</h2>
@@ -32,10 +43,7 @@ function DetailsPage() {
             <h2>Description : {Details.description}</h2>
             <h2>Skills : {Details.skills}</h2>
             <h2>Posted date : {Details.postedDate}</h2>
-            <Link to={`/applications/form/${id}`}>
-                <button>Apply</button>
-            </Link>
-        </>
+            <div className="details-action"><Link to={`/applications/form/${id}`}><button className="primary-button">Apply for this Job</button></Link></div></div></div>
     );
 }
 

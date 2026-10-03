@@ -16,7 +16,8 @@ function ApplicationForm() {
     }
 
     async function submitData() {
-        const response = await axios.post(
+
+        try{const response = await axios.post(
             "http://localhost:3000/applications/form",
             {
                 name,
@@ -31,21 +32,30 @@ function ApplicationForm() {
         if (response.status === 201) {
             navigate("/jobs");
         }
+    }catch (error) {
+
+            if (error.response.status === 401) {
+
+                console.log(error.response.data.message);
+
+                navigate("/login");
+            }
+        }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Name:</label>
-            <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+        <div className="page-shell form-page"><div className="form-card"><form className="styled-form" onSubmit={handleSubmit}>
+            <label className="form-label">Name:</label>
+            <input className="form-input" type="text" value={name} onChange={(event) => setName(event.target.value)} />
             <br />
-            <label>Skills:</label>
-            <input type="text" value={skills} onChange={(event) => setSkills(event.target.value)} />
+            <label className="form-label">Skills:</label>
+            <input className="form-input" type="text" value={skills} onChange={(event) => setSkills(event.target.value)} />
             <br />
-            <label>Expected Salary (LPA):</label>
-            <input type="number" value={expectedSalary} onChange={(event) => setExpectedSalary(event.target.value)} />
+            <label className="form-label">Expected Salary (LPA):</label>
+            <input className="form-input" type="number" value={expectedSalary} onChange={(event) => setExpectedSalary(event.target.value)} />
             <br />
-            <button type="submit">Submit Application</button>
-        </form>
+            <button className="primary-button" type="submit">Submit Application</button>
+        </form></div></div>
     );
 }
 

@@ -35,29 +35,35 @@ function JobForm() {
                 navigate(`/recruiter/jobs/${id}`);
             }
         } catch (error) {
-            console.log(error);
+
+            if (error.response.status === 401) {
+
+                console.log(error.response.data.message);
+
+                navigate("/login");
+            }
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Job Title:</label>
-            <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} />
+        <div className="page-shell form-page"><div className="form-card"><form className="styled-form" onSubmit={handleSubmit}>
+            <label className="form-label">Job Title:</label>
+            <input className="form-input" type="text" value={title} onChange={(event) => setTitle(event.target.value)} />
             <br />
-            <label>Company:</label>
-            <input type="text" value={company} onChange={(event) => setCompany(event.target.value)} />
+            <label className="form-label">Company:</label>
+            <input className="form-input" type="text" value={company} onChange={(event) => setCompany(event.target.value)} />
             <br />
-            <label>Experience:</label>
-            <input type="number" value={experience} onChange={(event) => setExperience(Number(event.target.value))} />
+            <label className="form-label">Experience:</label>
+            <input className="form-input" type="number" value={experience} onChange={(event) => setExperience(Number(event.target.value))} />
             <br />
-            <label>Salary:</label>
-            <input type="number" value={salary} onChange={(event) => setSalary(Number(event.target.value))} />
+            <label className="form-label">Salary:</label>
+            <input className="form-input" type="number" value={salary} onChange={(event) => setSalary(Number(event.target.value))} />
             <br />
-            <label>Skills (separate with commas):</label>
-            <input type="text" value={skills} onChange={(event) => setSkills(event.target.value)} />
+            <label className="form-label">Skills (separate with commas):</label>
+            <input className="form-input" type="text" value={skills} onChange={(event) => setSkills(event.target.value)} />
             <br />
-            <button type="submit">Create Job</button>
-        </form>
+            <button className="primary-button" type="submit">Create Job</button>
+        </form></div></div>
     );
 }
 
